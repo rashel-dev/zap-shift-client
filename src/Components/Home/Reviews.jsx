@@ -43,29 +43,40 @@ const Reviews = () => {
                 effect={"coverflow"}
                 grabCursor={true}
                 centeredSlides={true}
-                slidesPerView={3}
+                slidesPerView={2}
                 loop={true}
                 autoplay={{ delay: 2000, disableOnInteraction: false }}
                 coverflowEffect={{
                     rotate: 30,
-                    stretch: '50%',
+                    stretch: "50%",
                     depth: 200,
                     scale: 0.75,
                     modifier: 1,
                     slideShadows: true,
                 }}
                 pagination={true}
-                modules={[Autoplay,EffectCoverflow, Pagination]}
+                modules={[Autoplay, EffectCoverflow, Pagination]}
                 className="mySwiper"
+                breakpoints={{
+                    320: {
+                        slidesPerView: "auto",
+                    },
+                    640: {
+                        slidesPerView: "auto",
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    },
+                }}
             >
                 {reviews.map((review) => (
                     <SwiperSlide key={review.id} className="p-4 lg:p-8 bg-white rounded-lg">
                         <img src={reviewQuote} alt="" />
                         <p>{review.review}</p>
                         <hr className="border border-dashed border-secondary my-4" />
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 flex-col md:flex-row">
                             <img src={review.user_photoURL} alt="" className="h-10 w-10 rounded-full" />
-                            <div>
+                            <div className="text-center md:text-left">
                                 <h3 className="font-bold text-secondary">{review.userName}</h3>
                                 <p>{review.user_email}</p>
                             </div>
