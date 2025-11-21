@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../Hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../Components/ui/SocialLogin"
 import axios from "axios";
 
@@ -13,9 +13,11 @@ const Register = () => {
     } = useForm();
 
     const { registerUser, updateUserProfile } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+    
 
     const handleRegistration = (data) => {
-        console.log(data.photo[0]);
         const profileImg = data.photo[0];
 
 
@@ -28,18 +30,17 @@ const Register = () => {
 
                 //2. send the photo to store and get photo url
                 const image_Api_Url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
-                
-                axios.post(image_Api_Url, formData).then((res) => {
-                    console.log("after image upload", res.data.data.url);
 
+                axios.post(image_Api_Url, formData).then((res) => {
                     // 3. update user profile to firebase
                     const userProfile = {
                         displayName: data.name,
-                        photoURL: res.data.data.url,
+                        photoURL: res.data.data.url
                     };
                     updateUserProfile(userProfile)
                         .then(() => {
                             console.log("user profile updated");
+                            navigate(location?.state || "/");
                         })
                         .catch((error) => {
                             console.log(error);
@@ -91,13 +92,13 @@ const Register = () => {
                 </fieldset>
                 <p className="text-center">
                     Already have an account ?{" "}
-                    <Link to="/login" className="link link-hover text-blue-500">
+                    <Link to="/login" state={location.state} className="link link-hover text-blue-500">
                         Login
                     </Link>
                 </p>
                 <div className="divider mb-0">OR</div>
             </form>
-            <SocialLogin></SocialLogin>
+            <SocialLogin page="register"></SocialLogin>
         </div>
     );
 };

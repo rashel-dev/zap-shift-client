@@ -5,6 +5,7 @@ import banner1 from "../../assets/banner/banner1.png";
 import banner2 from "../../assets/banner/banner2.png";
 import banner3 from "../../assets/banner/banner3.png";
 import { GoArrowUpRight } from "react-icons/go";
+import { Link } from "react-router";
 
 
 const BannerSection = () => {
@@ -19,7 +20,7 @@ const BannerSection = () => {
                             <GoArrowUpRight className="bg-black text-primary rounded-full font-bold text-2xl p-1 cursor-pointer" />
                         </div>
                         <div>
-                            <button className="btn bg-primary text-black rounded-full font-bold">Be A Rider</button>
+                            <Link to="/rider" className="btn bg-primary text-black rounded-full font-bold">Be A Rider</Link>
                         </div>
                     </div>
                 </div>
@@ -31,7 +32,7 @@ const BannerSection = () => {
                             <GoArrowUpRight className="bg-black text-primary rounded-full font-bold text-2xl p-1 cursor-pointer" />
                         </div>
                         <div>
-                            <button className="btn bg-primary text-black rounded-full font-bold">Be A Rider</button>
+                            <Link to="/rider" className="btn bg-primary text-black rounded-full font-bold">Be A Rider</Link>
                         </div>
                     </div>
                 </div>
@@ -43,7 +44,7 @@ const BannerSection = () => {
                             <GoArrowUpRight className="bg-black text-primary rounded-full font-bold text-2xl p-1 cursor-pointer" />
                         </div>
                         <div>
-                            <button className="btn bg-primary text-black rounded-full font-bold">Be A Rider</button>
+                            <Link to="/rider" className="btn bg-primary text-black rounded-full font-bold">Be A Rider</Link>
                         </div>
                     </div>
                 </div>

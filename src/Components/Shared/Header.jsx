@@ -68,7 +68,7 @@ const Header = () => {
                         Login
                     </Link>
                 )}
-                <Link to="/" className="btn btn-primary text-black dark:text-white ">
+                <Link to="/rider" className="btn btn-primary text-black dark:text-white ">
                     Be A Rider
                 </Link>
             </div>

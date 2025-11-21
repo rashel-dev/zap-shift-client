@@ -1,14 +1,18 @@
 import React from 'react';
 import useAuth from '../../Hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router';
 
-const SocialLogin = () => {
+const SocialLogin = ({page}) => {
 
     const {signInGoogle} = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleGoogleSignIn = () => {
         signInGoogle()
         .then((result) => {
             console.log(result.user);
+            navigate(location?.state || "/");
         })
         .catch((error) => {
             console.log(error);
@@ -26,7 +30,9 @@ const SocialLogin = () => {
                     <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
                 </g>
             </svg>
-            Login with Google
+            {
+                page === 'login' ? 'Login with Google' : 'Register with Google'
+            }
         </button>
     );
 };

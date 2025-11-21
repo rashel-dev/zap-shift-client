@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../Hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../Components/ui/SocialLogin";
 
 const Login = () => {
@@ -11,11 +11,15 @@ const Login = () => {
         formState: { errors },
     } = useForm();
     const { signInUser } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
+
 
     const handleLogin = (data) => {
         signInUser(data.email, data.password)
             .then((result) => {
                 console.log(result.user);
+                navigate(location?.state || "/");
             })
             .catch((error) => {
                 console.log(error);
@@ -49,13 +53,13 @@ const Login = () => {
 
                 <p className="">
                     New to Zap Shift ? {" "}
-                    <Link to="/register" className="link link-hover text-blue-500">
+                    <Link to="/register" state={location.state} className="link link-hover text-blue-500">
                         Create an account
                     </Link>     
                 </p>
                 <div className="divider mb-0">OR</div>
             </form>
-            <SocialLogin></SocialLogin>
+            <SocialLogin page="login"></SocialLogin>
         </div>
     );
 };
