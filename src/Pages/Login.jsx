@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../Hooks/useAuth";
 import { Link } from "react-router";
+import SocialLogin from "../Components/ui/SocialLogin";
 
 const Login = () => {
     const {
@@ -52,8 +53,9 @@ const Login = () => {
                         Create an account
                     </Link>     
                 </p>
-                <div className="divider">OR</div>
+                <div className="divider mb-0">OR</div>
             </form>
+            <SocialLogin></SocialLogin>
         </div>
     );
 };

@@ -18,6 +18,10 @@ const router = createBrowserRouter([
                 element: <Home></Home>
             },
             {
+                path: "/rider",
+                element: <PrivateRoute></PrivateRoute>
+            },
+            {
                 path: "/coverage",
                 element: <Coverage></Coverage>,
                 loader: () => fetch("/serviceCenter.json").then(res => res.json()),
