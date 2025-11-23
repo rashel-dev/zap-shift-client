@@ -1,14 +1,15 @@
 import React from 'react';
 import useAuth from '../Hooks/useAuth';
 import { Navigate, useLocation } from 'react-router';
+import { GridLoader } from "react-spinners";
 
 const PrivateRoute = ({children}) => {
     const {user, loading} = useAuth();
     const location = useLocation();
     if(loading){
         return (
-            <div>
-                <span className="loading loading-spinner loading-xl"></span>
+            <div className="flex justify-center items-center h-screen">
+                <GridLoader color="#12ff00"></GridLoader>
             </div>
         );
     }

@@ -9,6 +9,7 @@ import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import Rider from "../Pages/Rider";
 import PrivateRoute from "../Routes/PrivateRoute";
+import SendParcel from "../Pages/SendParcel";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,15 @@ const router = createBrowserRouter([
                         <Rider></Rider>
                     </PrivateRoute>
                 ),
+            },
+            {
+                path: "/send-parcel",
+                element: (
+                    <PrivateRoute>
+                        <SendParcel></SendParcel>
+                    </PrivateRoute>
+                ),
+                loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
             },
             {
                 path: "/coverage",
@@ -49,6 +59,9 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 element: <Register></Register>,
+            },
+            {
+                path: "",
             },
         ],
     },
