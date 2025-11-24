@@ -2,6 +2,8 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAuth from "../Hooks/useAuth";
 
 const SendParcel = () => {
     const {
@@ -11,6 +13,11 @@ const SendParcel = () => {
         formState: { errors },
     } = useForm();
 
+    const { user } = useAuth();
+    console.log(user);
+
+    const axiosSecure = useAxiosSecure();
+
     // loading services centers regions from json
     const serviceCenters = useLoaderData();
     const regionsWithDuplicate = serviceCenters.map((serviceCenter) => serviceCenter.region);
@@ -19,7 +26,7 @@ const SendParcel = () => {
     const senderRegion = useWatch({ control, name: "senderRegion" });
     const receiverRegion = useWatch({ control, name: "receiverRegion" });
 
-    //get all the distric by their region
+    //get all the district by their region
     const districtsByRegion = (region) => {
         const regionDistricts = serviceCenters.filter((serviceCenter) => serviceCenter.region === region);
         const districts = regionDistricts.map((d) => d.district);
@@ -44,6 +51,7 @@ const SendParcel = () => {
                 cost = minCharge + extraCharge;
             }
         }
+
         Swal.fire({
             title: "Are you sure to send this parcel?",
             text: `You will be charged ${cost} Taka`,
@@ -54,6 +62,16 @@ const SendParcel = () => {
             confirmButtonText: "Yes, I agree!",
         }).then((result) => {
             if (result.isConfirmed) {
+                //save the parcel info to the database
+                axiosSecure
+                    .post("/parcels", data)
+                    .then((res) => {
+                        console.log("after saving parcel to the database", res.data);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+
                 Swal.fire({
                     title: "Your parcel has been sent successfully",
                     text: "",
@@ -110,8 +128,8 @@ const SendParcel = () => {
                         <div>
                             <h2 className="font-semibold mb-4">Sender Details</h2>
                             <div className="grid gap-4">
-                                <input placeholder="Sender Name" {...register("senderName")} className="border p-3 rounded-lg" />
-                                <input placeholder="Sender Email" {...register("senderEmail")} className="border p-3 rounded-lg" />
+                                <input placeholder="Sender Name" {...register("senderName")} className="border p-3 rounded-lg" defaultValue={user?.displayName} />
+                                <input placeholder="Sender Email" {...register("senderEmail")} className="border p-3 rounded-lg" defaultValue={user?.email} />
 
                                 {/* sender region */}
                                 <fieldset className="fieldset">
