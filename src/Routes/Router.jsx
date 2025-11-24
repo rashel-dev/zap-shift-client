@@ -13,10 +13,13 @@ import SendParcel from "../Pages/SendParcel";
 import DashboardLayout from "../Layout/DashboardLayout";
 import MyParcels from "../Pages/MyParcels";
 
+import Loader from "../Components/Shared/Loader";
+
 const router = createBrowserRouter([
     {
         path: "/",
         element: <RootLayout></RootLayout>,
+        hydrateFallbackElement: <Loader></Loader>,
         children: [
             {
                 index: true,
@@ -78,8 +81,8 @@ const router = createBrowserRouter([
             {
                 path: "my-parcels",
                 element: <MyParcels></MyParcels>,
-            }
-        ]
+            },
+        ],
     },
     {
         path: "/*",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
@@ -10,11 +10,11 @@ const SendParcel = () => {
         register,
         handleSubmit,
         control,
+        setValue,
         // formState: { errors },
     } = useForm();
 
     const { user } = useAuth();
-    console.log(user);
 
     const axiosSecure = useAxiosSecure();
 
@@ -23,15 +23,15 @@ const SendParcel = () => {
     const regionsWithDuplicate = serviceCenters.map((serviceCenter) => serviceCenter.region);
     const regions = [...new Set(regionsWithDuplicate)];
 
-    const senderRegion = useWatch({ control, name: "senderRegion" });
-    const receiverRegion = useWatch({ control, name: "receiverRegion" });
+    const senderRegion = useWatch({ control, name: "senderRegion", defaultValue: "" });
+    const receiverRegion = useWatch({ control, name: "receiverRegion", defaultValue: "" });
 
     //get all the district by their region
-    const districtsByRegion = (region) => {
+    const districtsByRegion = useCallback((region) => {
         const regionDistricts = serviceCenters.filter((serviceCenter) => serviceCenter.region === region);
         const districts = regionDistricts.map((d) => d.district);
         return districts;
-    };
+    }, [serviceCenters]);
 
     const handleSendParcel = (data) => {
         console.log(data);
@@ -51,6 +51,9 @@ const SendParcel = () => {
                 cost = minCharge + extraCharge;
             }
         }
+        // add the parcel info to the database
+
+        data.cost = cost;
 
         Swal.fire({
             title: "Are you sure to send this parcel?",
@@ -80,6 +83,20 @@ const SendParcel = () => {
             }
         });
     };
+
+    useEffect(() => {
+        const districts = districtsByRegion(senderRegion);
+        if (districts.length > 0) {
+            setValue("senderDistrict", districts[0]); // automatically select the first district
+        }
+    }, [senderRegion, setValue, districtsByRegion]);
+
+    useEffect(() => {
+        const districts = districtsByRegion(receiverRegion);
+        if (districts.length > 0) {
+            setValue("receiverDistrict", districts[0]); // automatically select the first district
+        }
+    }, [receiverRegion, setValue, districtsByRegion]);
 
     return (
         <div className="w-full bg-[#F8F9FA] py-10 px-4 md:px-10">

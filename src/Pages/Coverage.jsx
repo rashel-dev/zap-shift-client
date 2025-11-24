@@ -5,7 +5,7 @@ import { useLoaderData } from "react-router";
 import { FaSearch } from "react-icons/fa";
 
 const Coverage = () => {
-    const position = [22.3543296, 91.8257664];
+    const position = [23.8103, 90.4125];
     const serviceCenters = useLoaderData();
     const mapRef = useRef(null);
     
@@ -15,7 +15,7 @@ const Coverage = () => {
         const district = serviceCenters.find(serviceCenter => serviceCenter.district.toLowerCase().includes(location.toLowerCase()));
         if(district){
             const coord = [district.latitude, district.longitude];
-            mapRef.current.flyTo(coord, 14);
+            mapRef.current.flyTo(coord, 10);
         }
         
         }
@@ -40,8 +40,8 @@ const Coverage = () => {
             </div>
 
             {/* map container  */}
-            <div className="border w-full h-[400px] ">
-                <MapContainer center={position} zoom={8} scrollWheelZoom={false} className="h-[400px]" ref={mapRef}>
+            <div className="border w-full h-[600px] ">
+                <MapContainer center={position} zoom={7} scrollWheelZoom={false} className="h-[600px]" ref={mapRef}>
                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
                     {serviceCenters.map((serviceCenter, index) => (
