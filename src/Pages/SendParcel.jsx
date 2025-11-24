@@ -10,7 +10,7 @@ const SendParcel = () => {
         register,
         handleSubmit,
         control,
-        formState: { errors },
+        // formState: { errors },
     } = useForm();
 
     const { user } = useAuth();
