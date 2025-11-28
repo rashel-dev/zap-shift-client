@@ -15,6 +15,7 @@ import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
 
 import Loader from "../Components/Shared/Loader";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 
 const router = createBrowserRouter([
     {
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
             {
                 path: "payment/:parcelId",
                 element: <Payment></Payment>
+            },
+            {
+                path: "payment-success",
+                element: <PaymentSuccess></PaymentSuccess>
             }
         ],
     },
