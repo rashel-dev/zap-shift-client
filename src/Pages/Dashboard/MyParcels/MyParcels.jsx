@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import useAuth from "../Hooks/useAuth";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FiEdit } from "react-icons/fi";
 import { FaMagnifyingGlass, FaTrashCan } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const MyParcels = () => {
     const { user } = useAuth();
@@ -34,7 +35,7 @@ const MyParcels = () => {
                     .delete(`/parcels/${id}`)
                     .then((res) => {
                         // console.log(res.data);
-                        if(res.data.deletedCount === 1){
+                        if (res.data.deletedCount === 1) {
                             // after deleteing a parcel we have to refetch the data to see the updated list. for this we can use refetch function from tanstack query(react query)
                             refetch();
                             Swal.fire({
@@ -46,10 +47,7 @@ const MyParcels = () => {
                     })
                     .catch((err) => {
                         console.log(err);
-
                     });
-
-                
             }
         });
     };
@@ -65,7 +63,8 @@ const MyParcels = () => {
                             <th></th>
                             <th>Name</th>
                             <th>Cost</th>
-                            <th>Payment Status</th>
+                            <th>Payment</th>
+                            <th>Delivery Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -75,7 +74,16 @@ const MyParcels = () => {
                                 <th>{index + 1}</th>
                                 <td>{parcel.parcelName}</td>
                                 <td>{parcel.cost}</td>
-                                <td>Ongoing</td>
+                                <td>
+                                    {parcel.paymentStatus === "paid" ? (
+                                        <span className="text-green-600 font-bold">Paid</span>
+                                    ) : (
+                                        <Link to={`/dashboard/payment/${parcel._id}`}>
+                                            <button className="btn btn-sm btn-primary text-black ">Pay</button>
+                                        </Link>
+                                    )}
+                                </td>
+                                <td>{parcel.deliveryStatus}</td>
                                 <td className="flex gap-2">
                                     <button className="btn btn-square hover:bg-primary">
                                         <FaMagnifyingGlass></FaMagnifyingGlass>

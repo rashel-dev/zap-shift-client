@@ -11,9 +11,10 @@ import Rider from "../Pages/Rider";
 import PrivateRoute from "../Routes/PrivateRoute";
 import SendParcel from "../Pages/SendParcel";
 import DashboardLayout from "../Layout/DashboardLayout";
-import MyParcels from "../Pages/MyParcels";
+import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
 
 import Loader from "../Components/Shared/Loader";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 const router = createBrowserRouter([
     {
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
                 path: "my-parcels",
                 element: <MyParcels></MyParcels>,
             },
+            {
+                path: "payment/:parcelId",
+                element: <Payment></Payment>
+            }
         ],
     },
     {
