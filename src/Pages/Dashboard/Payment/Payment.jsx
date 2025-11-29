@@ -25,31 +25,17 @@ const Payment = () => {
             senderEmail: parcel.senderEmail,
         };
 
-        const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
-        if(res.data.url){
-            window.location.href = res.data.url;
-        }
-        console.log(res.data);
+       try {
+           const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
+        //    console.log(res.data);
+           if (res.data.url) {
+               window.location.href = res.data.url;
+           }
+       } catch (error) {
+           console.error("Payment Error: ", error);
+       }
     };
 
-    // const handlePayment = async () => {
-    //     const paymentInfo = {
-    //         parcelId: parcel._id,
-    //         cost: parcel.cost,
-    //         parcelName: parcel.parcelName,
-    //         senderEmail: parcel.senderEmail,
-    //         senderName: parcel.senderName,
-    //     };
-
-    //     try {
-    //         const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
-    //         if (res.data.url) {
-    //             window.location.href = res.data.url;
-    //         }
-    //     } catch (error) {
-    //         console.error("Payment Error: ", error);
-    //     }
-    // };
 
     if (isLoading) {
         return (
