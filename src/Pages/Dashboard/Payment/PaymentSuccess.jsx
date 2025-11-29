@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const PaymentSuccess = () => {
-
     const [searchParams] = useSearchParams();
+    const [paymentInfo, setPaymentInfo] = useState({});
 
     const sessionId = searchParams.get("session_id");
     // console.log(sessionId);
@@ -13,16 +13,21 @@ const PaymentSuccess = () => {
     const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
-        if(sessionId){
-            axiosSecure.patch(`/payment-success?session_id=${sessionId}`)
-            .then(res => {
-                console.log(res.data);
-            })
-            .catch(err => {
-                console.error(err);
-            })
+        if (sessionId) {
+            axiosSecure
+                .patch(`/payment-success?session_id=${sessionId}`)
+                .then((res) => {
+                    console.log(res.data);
+                    setPaymentInfo({
+                        transactionId: res.data.transactionId,
+                        trakingId: res.data.trackingId,
+                    });
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         }
-    },[sessionId, axiosSecure])
+    }, [sessionId, axiosSecure]);
 
     return (
         <div className="min-h-screen bg-base-200 flex items-center justify-center px-4">
@@ -32,6 +37,9 @@ const PaymentSuccess = () => {
                 </div>
 
                 <h2 className="text-3xl font-extrabold text-base-content mb-2">Payment Successful!</h2>
+
+                <p>Transaction ID: {paymentInfo?.transactionId}</p>
+                <p>Tracking ID: {paymentInfo?.trakingId}</p>
 
                 <p className="text-base-content/70 mb-8">Thank you for your payment. Your transaction has been completed successfully and your parcel is being processed.</p>
 

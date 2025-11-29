@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import useAuth from "../Hooks/useAuth";
@@ -17,6 +17,7 @@ const SendParcel = () => {
     const { user } = useAuth();
 
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
 
     // loading services centers regions from json
     const serviceCenters = useLoaderData();
@@ -62,7 +63,7 @@ const SendParcel = () => {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, I agree!",
+            confirmButtonText: "Confirm and Continue payment!",
         }).then((result) => {
             if (result.isConfirmed) {
                 //save the parcel info to the database
@@ -70,16 +71,22 @@ const SendParcel = () => {
                     .post("/parcels", data)
                     .then((res) => {
                         console.log("after saving parcel to the database", res.data);
+                        if(res.data.insertedId){
+                            Swal.fire({
+                                title: "Succeed",
+                                text: "Your parcel has been created successfully",
+                                icon: "success",
+                                timer: 2500,
+                                confirmButtonColor: "#3085d6",
+                            });
+                            navigate("/dashboard/my-parcels");
+                        }
+
                     })
                     .catch((err) => {
                         console.log(err);
                     });
-
-                Swal.fire({
-                    title: "Your parcel has been sent successfully",
-                    text: "",
-                    icon: "success",
-                });
+                
             }
         });
     };
