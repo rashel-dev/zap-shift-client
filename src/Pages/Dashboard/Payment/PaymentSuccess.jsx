@@ -20,7 +20,7 @@ const PaymentSuccess = () => {
                     console.log(res.data);
                     setPaymentInfo({
                         transactionId: res.data.transactionId,
-                        trakingId: res.data.trackingId,
+                        trackingId: res.data.trackingId,
                     });
                 })
                 .catch((err) => {
@@ -38,8 +38,12 @@ const PaymentSuccess = () => {
 
                 <h2 className="text-3xl font-extrabold text-base-content mb-2">Payment Successful!</h2>
 
-                <p>Transaction ID: {paymentInfo?.transactionId}</p>
-                <p>Tracking ID: {paymentInfo?.trakingId}</p>
+                <p>
+                    <span className="font-bold">Transaction ID:</span> {paymentInfo?.transactionId}
+                </p>
+                <p>
+                    <span className="font-bold">Tracking ID:</span> {paymentInfo?.trackingId}
+                </p>
 
                 <p className="text-base-content/70 mb-8">Thank you for your payment. Your transaction has been completed successfully and your parcel is being processed.</p>
 

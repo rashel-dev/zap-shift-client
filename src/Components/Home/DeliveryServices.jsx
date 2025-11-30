@@ -1,5 +1,5 @@
 import React from "react";
-import live_traking from "../../assets/live-tracking.png";
+import live_tracking from "../../assets/live-tracking.png";
 import safe_delivery from "../../assets/safe-delivery.png";
 import call_center from "../../assets/safe-delivery.png";
 
@@ -8,7 +8,7 @@ const services = [
         title: "Live Parcel Tracking",
         description:
             "Stay updated in real-time with our live parcel tracking feature. From pick-up to delivery, monitor your shipment’s journey and get instant status updates for complete peace of mind.",
-        icon: live_traking,
+        icon: live_tracking,
     },
     {
         title: "100% Safe Delivery",
