@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, NavLink, Outlet} from 'react-router';
 import { BsFillBox2Fill } from "react-icons/bs";
+import { FaCreditCard } from 'react-icons/fa';
+
 
 const DashboardLayout = () => {
     return (
@@ -65,6 +67,16 @@ const DashboardLayout = () => {
                                 {/* my parcel icon  */}
                                 <BsFillBox2Fill className="my-1.5 inline-block size-4" />
                                 <span className="is-drawer-close:hidden">My Parcels</span>
+                            </NavLink>
+                        </li>
+
+
+                        {/* payment history link */}
+                        <li>
+                            <NavLink to="/dashboard/payment-history" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
+                                {/* payment history icon  */}
+                                <FaCreditCard className="my-1.5 inline-block size-4" />
+                                <span className="is-drawer-close:hidden">Payment History</span>
                             </NavLink>
                         </li>
 
