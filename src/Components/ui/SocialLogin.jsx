@@ -1,23 +1,36 @@
-import React from 'react';
-import useAuth from '../../Hooks/useAuth';
-import { useLocation, useNavigate } from 'react-router';
+import React from "react";
+import useAuth from "../../Hooks/useAuth";
+import { useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
-const SocialLogin = ({page}) => {
-
-    const {signInGoogle} = useAuth();
+const SocialLogin = ({ page }) => {
+    const { signInGoogle } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure();
 
     const handleGoogleSignIn = () => {
         signInGoogle()
-        .then((result) => {
-            console.log(result.user);
-            navigate(location?.state || "/");
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-    }
+            .then((result) => {
+                // console.log(result.user);
+                navigate(location?.state || "/");
+
+                //--------create new user in the database-----------------
+                const userInfo = {
+                    email: result.user.email,
+                    name: result.user.displayName,
+                    photoURL: result.user.photoURL,
+                };
+
+                axiosSecure.post("/users", userInfo).then((res) => {
+                    console.log("user created successfully in the database", res.data);
+                    navigate(location?.state || "/");
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
         <button onClick={handleGoogleSignIn} className="btn bg-white text-black border-[#e5e5e5] m-6 mt-0">
@@ -30,9 +43,7 @@ const SocialLogin = ({page}) => {
                     <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
                 </g>
             </svg>
-            {
-                page === 'login' ? 'Login with Google' : 'Register with Google'
-            }
+            {page === "login" ? "Login with Google" : "Register with Google"}
         </button>
     );
 };

@@ -15,7 +15,18 @@ const brands = [amazon_vector, amazon, casio, moonstar, randstad, star, start_pe
 
 const Brands = () => {
     return (
-        <Swiper slidesPerView={3} centeredSlides={true} spaceBetween={30} grabCursor={true} loop={true} autoplay={{ delay: 0, disableOnInteraction: false }} speed={4000} freeMode={true} modules={[Autoplay]}  className="mt-8">
+        <Swiper
+            slidesPerView={3}
+            centeredSlides={true}
+            spaceBetween={30}
+            grabCursor={true}
+            loop={true}
+            autoplay={{ delay: 0, disableOnInteraction: false }}
+            speed={4000}
+            freeMode={true}
+            modules={[Autoplay]}
+            className="mt-8 marquee-swiper"
+        >
             {brands.map((brand, index) => (
                 <SwiperSlide key={index}>
                     <img src={brand} alt="" />

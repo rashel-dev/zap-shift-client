@@ -36,6 +36,7 @@ const router = createBrowserRouter([
                         <Rider></Rider>
                     </PrivateRoute>
                 ),
+                loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
             },
             {
                 path: "/send-parcel",
@@ -88,20 +89,20 @@ const router = createBrowserRouter([
             },
             {
                 path: "payment/:parcelId",
-                element: <Payment></Payment>
+                element: <Payment></Payment>,
             },
             {
                 path: "payment-success",
-                element: <PaymentSuccess></PaymentSuccess>
+                element: <PaymentSuccess></PaymentSuccess>,
             },
             {
                 path: "payment-cancelled",
-                element: <PaymentCancelled></PaymentCancelled>
+                element: <PaymentCancelled></PaymentCancelled>,
             },
             {
                 path: "payment-history",
-                element: <PaymentHistory></PaymentHistory>
-            }
+                element: <PaymentHistory></PaymentHistory>,
+            },
         ],
     },
     {
