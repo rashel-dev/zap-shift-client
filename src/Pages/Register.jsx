@@ -2,8 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../Hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router";
-import SocialLogin from "../Components/ui/SocialLogin"
+import SocialLogin from "../Components/ui/SocialLogin";
 import axios from "axios";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const Register = () => {
     const {
@@ -15,15 +17,14 @@ const Register = () => {
     const { registerUser, updateUserProfile } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    
+    const axiosSecure = useAxiosSecure();
 
     const handleRegistration = (data) => {
         const profileImg = data.photo[0];
 
-
         registerUser(data.email, data.password)
-            .then((result) => {
-                console.log(result.user);
+            .then(() => {
+                // console.log(result.user);
                 //1. store the image in form data
                 const formData = new FormData();
                 formData.append("image", profileImg);
@@ -32,14 +33,29 @@ const Register = () => {
                 const image_Api_Url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
 
                 axios.post(image_Api_Url, formData).then((res) => {
+                    const photoURL = res.data.data.url;
+
+                    //--------create new user in the database
+                    const userInfo = {
+                        email: data.email,
+                        name: data.name,
+                        photoURL: photoURL,
+                    };
+                    axiosSecure.post("/users", userInfo).then((res) => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            console.log("user created successfully in the database");
+                        }
+                    });
+
                     // 3. update user profile to firebase
                     const userProfile = {
                         displayName: data.name,
-                        photoURL: res.data.data.url
+                        photoURL: photoURL,
                     };
                     updateUserProfile(userProfile)
                         .then(() => {
-                            console.log("user profile updated");
+                            // console.log("user profile updated");
                             navigate(location?.state || "/");
                         })
                         .catch((error) => {
@@ -49,6 +65,13 @@ const Register = () => {
             })
             .catch((error) => {
                 console.log(error);
+                if (error.code === "auth/email-already-in-use") {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "User already registered!",
+                    });
+                }
             });
     };
     return (
