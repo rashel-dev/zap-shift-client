@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink, Outlet} from 'react-router';
 import { BsFillBox2Fill } from "react-icons/bs";
-import { FaCreditCard } from 'react-icons/fa';
+import { FaCreditCard, FaMotorcycle } from 'react-icons/fa';
 
 
 const DashboardLayout = () => {
@@ -38,7 +38,7 @@ const DashboardLayout = () => {
                 <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
                 <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
                     {/* Sidebar content here */}
-                    <ul className="menu w-full grow">
+                    <ul className="menu w-full grow space-y-2">
                         {/* List item */}
                         <li>
                             <Link to="/" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
@@ -77,6 +77,14 @@ const DashboardLayout = () => {
                                 {/* payment history icon  */}
                                 <FaCreditCard className="my-1.5 inline-block size-4" />
                                 <span className="is-drawer-close:hidden">Payment History</span>
+                            </NavLink>
+                        </li>
+                        {/* Approved Riders link */}
+                        <li>
+                            <NavLink to="/dashboard/approved-riders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approved Riders">
+                                {/* Approved Riders icon */}
+                                <FaMotorcycle className="my-1.5 inline-block size-4" />
+                                <span className="is-drawer-close:hidden">Approved Riders</span>
                             </NavLink>
                         </li>
 
