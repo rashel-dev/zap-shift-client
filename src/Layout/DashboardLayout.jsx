@@ -1,8 +1,7 @@
-import React from 'react';
-import { Link, NavLink, Outlet} from 'react-router';
+import React from "react";
+import { Link, NavLink, Outlet } from "react-router";
 import { BsFillBox2Fill } from "react-icons/bs";
-import { FaCreditCard, FaMotorcycle } from 'react-icons/fa';
-
+import { FaCreditCard, FaMotorcycle, FaUser } from "react-icons/fa";
 
 const DashboardLayout = () => {
     return (
@@ -70,7 +69,6 @@ const DashboardLayout = () => {
                             </NavLink>
                         </li>
 
-
                         {/* payment history link */}
                         <li>
                             <NavLink to="/dashboard/payment-history" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
@@ -85,6 +83,15 @@ const DashboardLayout = () => {
                                 {/* Approved Riders icon */}
                                 <FaMotorcycle className="my-1.5 inline-block size-4" />
                                 <span className="is-drawer-close:hidden">Approved Riders</span>
+                            </NavLink>
+                        </li>
+
+                        {/* Users Management link */}
+                        <li>
+                            <NavLink to="/dashboard/users-management" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
+                                {/* Users Management icon */}
+                                <FaUser className="my-1.5 inline-block size-4" />
+                                <span className="is-drawer-close:hidden">Users Management</span>
                             </NavLink>
                         </li>
 
