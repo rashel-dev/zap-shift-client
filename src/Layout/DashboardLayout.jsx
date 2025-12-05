@@ -2,8 +2,12 @@ import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { BsFillBox2Fill } from "react-icons/bs";
 import { FaCreditCard, FaMotorcycle, FaUser } from "react-icons/fa";
+import useRole from "../Hooks/useRole";
 
 const DashboardLayout = () => {
+    const {role} = useRole();
+    console.log(role);
+
     return (
         <div className="drawer lg:drawer-open max-w-7xl mx-auto">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -77,46 +81,27 @@ const DashboardLayout = () => {
                                 <span className="is-drawer-close:hidden">Payment History</span>
                             </NavLink>
                         </li>
-                        {/* Approved Riders link */}
-                        <li>
-                            <NavLink to="/dashboard/approved-riders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approved Riders">
-                                {/* Approved Riders icon */}
-                                <FaMotorcycle className="my-1.5 inline-block size-4" />
-                                <span className="is-drawer-close:hidden">Approved Riders</span>
-                            </NavLink>
-                        </li>
+                        {role === "admin" && (
+                            <>
+                                {/* Approved Riders link */}
+                                <li>
+                                    <NavLink to="/dashboard/approved-riders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approved Riders">
+                                        {/* Approved Riders icon */}
+                                        <FaMotorcycle className="my-1.5 inline-block size-4" />
+                                        <span className="is-drawer-close:hidden">Approved Riders</span>
+                                    </NavLink>
+                                </li>
 
-                        {/* Users Management link */}
-                        <li>
-                            <NavLink to="/dashboard/users-management" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
-                                {/* Users Management icon */}
-                                <FaUser className="my-1.5 inline-block size-4" />
-                                <span className="is-drawer-close:hidden">Users Management</span>
-                            </NavLink>
-                        </li>
-
-                        {/* List item */}
-                        <li>
-                            <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
-                                {/* Settings icon */}
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    strokeLinejoin="round"
-                                    strokeLinecap="round"
-                                    strokeWidth="2"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    className="my-1.5 inline-block size-4"
-                                >
-                                    <path d="M20 7h-9"></path>
-                                    <path d="M14 17H5"></path>
-                                    <circle cx="17" cy="17" r="3"></circle>
-                                    <circle cx="7" cy="7" r="3"></circle>
-                                </svg>
-                                <span className="is-drawer-close:hidden">Settings</span>
-                            </button>
-                        </li>
+                                {/* Users Management link */}
+                                <li>
+                                    <NavLink to="/dashboard/users-management" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
+                                        {/* Users Management icon */}
+                                        <FaUser className="my-1.5 inline-block size-4" />
+                                        <span className="is-drawer-close:hidden">Users Management</span>
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </div>
             </div>
