@@ -8,7 +8,11 @@ import Swal from "sweetalert2";
 const UsersManagement = () => {
     const axiosSecure = useAxiosSecure();
 
-    const { data: users = [], isLoading, refetch } = useQuery({
+    const {
+        data: users = [],
+        isLoading,
+        refetch,
+    } = useQuery({
         queryKey: ["users"],
         queryFn: async () => {
             const res = await axiosSecure.get("/users");
@@ -19,16 +23,28 @@ const UsersManagement = () => {
 
     const handleMakeUserAdmin = (user) => {
         const roleInfo = { role: "admin" };
-        axiosSecure.patch(`/users/${user._id}`, roleInfo).then((res) => {
-            console.log(res.data);
-            if (res.data.modifiedCount > 0) {
-                refetch();
-                Swal.fire({
-                    title: "Succeed",
-                    text: `${user.name} Marked as Admin Successfully`,
-                    icon: "success",
-                    timer: 2500,
-                    confirmButtonColor: "#3085d6",
+        Swal.fire({
+            title: "Are you sure to make this user admin?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, make admin!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.patch(`/users/${user._id}`, roleInfo).then((res) => {
+                    // console.log(res.data);
+                    if (res.data.modifiedCount > 0) {
+                        refetch();
+                        Swal.fire({
+                            title: "Succeed",
+                            text: `${user.name} Marked as Admin Successfully`,
+                            icon: "success",
+                            timer: 2500,
+                            confirmButtonColor: "#3085d6",
+                        });
+                    }
                 });
             }
         });
@@ -36,20 +52,32 @@ const UsersManagement = () => {
 
     const handleRemoveAdmin = (user) => {
         const roleInfo = { role: "user" };
-        axiosSecure.patch(`/users/${user._id}`, roleInfo).then((res) => {
-            console.log(res.data);
-            if (res.data.modifiedCount > 0) {
-                refetch();
-                Swal.fire({
-                    title: "Succeed",
-                    text: `${user.name} Removed from Admin Successfully`,
-                    icon: "success",
-                    timer: 2500,
-                    confirmButtonColor: "#3085d6",
+        Swal.fire({
+            title: "Are you sure to remove this user from admin?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, remove admin!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.patch(`/users/${user._id}`, roleInfo).then((res) => {
+                    // console.log(res.data);
+                    if (res.data.modifiedCount > 0) {
+                        refetch();
+                        Swal.fire({
+                            title: "Succeed",
+                            text: `${user.name} Removed from Admin Successfully`,
+                            icon: "success",
+                            timer: 2500,
+                            confirmButtonColor: "#3085d6",
+                        });
+                    }
                 });
             }
         });
-    }
+    };
 
     if (isLoading) {
         return (
@@ -95,11 +123,11 @@ const UsersManagement = () => {
                                 <td className={`${user.role === "rider" && "text-red-500"}`}>{user.role}</td>
                                 <td className="space-x-2">
                                     {user.role === "admin" ? (
-                                        <button onClick={() => handleRemoveAdmin(user)}className="btn btn-sm bg-red-500" title="Remove from admin">
+                                        <button onClick={() => handleRemoveAdmin(user)} className="btn btn-sm bg-red-500" title="Remove from admin">
                                             <FiShieldOff></FiShieldOff>
                                         </button>
                                     ) : (
-                                        <button onClick={() => handleMakeUserAdmin(user)}className="btn btn-sm bg-green-500" title="make admin">
+                                        <button onClick={() => handleMakeUserAdmin(user)} className="btn btn-sm bg-green-500" title="make admin">
                                             <FaUserShield></FaUserShield>
                                         </button>
                                     )}
