@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { FaUserShield } from "react-icons/fa";
@@ -7,15 +7,12 @@ import Swal from "sweetalert2";
 
 const UsersManagement = () => {
     const axiosSecure = useAxiosSecure();
+    const [searchText, setSearchText] = useState("");
 
-    const {
-        data: users = [],
-        isLoading,
-        refetch,
-    } = useQuery({
-        queryKey: ["users"],
+    const { data: users = [], refetch } = useQuery({
+        queryKey: ["users", searchText],
         queryFn: async () => {
-            const res = await axiosSecure.get("/users");
+            const res = await axiosSecure.get(`/users?searchText=${searchText}`);
             // console.log(res.data);
             return res.data;
         },
@@ -79,17 +76,26 @@ const UsersManagement = () => {
         });
     };
 
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <span className="loading loading-spinner loading-lg"></span>
-            </div>
-        );
-    }
-
     return (
         <div className="m-4">
             <h2 className="text-3xl font-bold">Total Users: {users.length}</h2>
+
+            {/* search box  */}
+
+            <div className="my-4 mx-auto text-center">
+                <label className="input">
+                    <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                        </g>
+                    </svg>
+                    <input onChange={(e) => setSearchText(e.target.value)} type="search" required placeholder="Search user" />
+                </label>
+            </div>
+
+            {/* table  */}
+
             <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}
