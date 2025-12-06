@@ -56,8 +56,9 @@ const ApprovedRiders = () => {
                             <th></th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Status</th>
                             <th>District</th>
+                            <th>Application Status</th>
+                            <th>Work Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -67,8 +68,9 @@ const ApprovedRiders = () => {
                                 <th>{index + 1}</th>
                                 <td>{rider.name}</td>
                                 <td>{rider.email}</td>
-                                <td className={`font-bold ${rider.status === "approved" ? "text-green-500" : rider.status === "rejected" ? "text-red-500" : "text-yellow-500"}`}>{rider.status}</td>
                                 <td>{rider.riderDistrict}</td>
+                                <td className={`font-bold ${rider.status === "approved" ? "text-green-500" : rider.status === "rejected" ? "text-red-500" : "text-yellow-500"}`}>{rider.status}</td>
+                                <td>{rider.workStatus}</td>
                                 <td className="flex gap-4">
                                     <button onClick={() => handleViewDetails(rider)} className="btn btn-sm btn-secondary">
                                         <FaEye />
