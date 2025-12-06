@@ -1,15 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import GridLoading from "../../../Components/Shared/GridLoading";
+import Swal from "sweetalert2";
 
 const AssignRiders = () => {
+    const queryClient = useQueryClient();
     const [selectedParcel, setSelectedParcel] = useState(null);
 
     const axiosSecure = useAxiosSecure();
 
     const riderModalRef = useRef();
 
-    const { data: parcels = [] } = useQuery({
+    const { data: parcels = [], refetch: parcelsRefetch } = useQuery({
         queryKey: ["parcels", "pending-pickup"],
         queryFn: async () => {
             const res = await axiosSecure.get("/parcels?deliveryStatus=pending-pickup");
@@ -19,7 +22,7 @@ const AssignRiders = () => {
 
     // console.log(selectedParcel);
 
-    const { data: riders = [] } = useQuery({
+    const { data: riders = [], isLoading } = useQuery({
         queryKey: ["riders", selectedParcel?.senderDistrict, "available"],
         enabled: !!selectedParcel,
         queryFn: async () => {
@@ -30,8 +33,31 @@ const AssignRiders = () => {
 
     const openAssignRiderModal = (parcel) => {
         setSelectedParcel(parcel);
-
         riderModalRef.current.showModal();
+    };
+
+    const handleAssignRider = (rider) => {
+        const riderAssignInfo = {
+            riderId: rider._id,
+            riderEmail: rider.email,
+            riderName: rider.name,
+            riderPhone: rider.phone,
+            parcelId: selectedParcel._id,
+        };
+        axiosSecure.patch(`/parcels/${selectedParcel._id}`, riderAssignInfo).then((res) => {
+            if (res.data.modifiedCount > 0) {
+                Swal.fire({
+                    title: "Success",
+                    text: "Rider assigned successfully",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                riderModalRef.current.close();
+                parcelsRefetch();
+                queryClient.invalidateQueries(["riders"]);
+            }
+        });
     };
 
     return (
@@ -61,7 +87,7 @@ const AssignRiders = () => {
                                 <td>{parcel.senderAddress}</td>
                                 <td>
                                     <button onClick={() => openAssignRiderModal(parcel)} className="btn btn-sm btn-primary text-black">
-                                        Assign Rider
+                                        Find Riders
                                     </button>
                                 </td>
                             </tr>
@@ -75,7 +101,9 @@ const AssignRiders = () => {
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Available Riders: {riders.length}</h3>
                     <div className="py-4">
-                        {riders.length > 0 ? (
+                        {isLoading ? (
+                            <GridLoading />
+                        ) : riders.length > 0 ? (
                             <div className="overflow-x-auto">
                                 <table className="table table-zebra">
                                     <thead>
@@ -91,7 +119,7 @@ const AssignRiders = () => {
                                                 <td>{rider.name}</td>
                                                 <td>{rider.riderDistrict}</td>
                                                 <td>
-                                                    <button className="btn btn-sm btn-primary text-black">
+                                                    <button onClick={() => handleAssignRider(rider)} className="btn btn-sm btn-primary text-black">
                                                         Assign
                                                     </button>
                                                 </td>
