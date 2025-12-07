@@ -19,24 +19,24 @@ const AssignedDeliveries = () => {
     const handleAcceptDelivery = (parcel, status) => {
         const statusInfo = {
             deliveryStatus: status,
-        }
+            riderId: parcel.riderId,
+        };
 
         let message = `Parcel status is updated to ${status.split("_").join(" ")}`;
-        
-        axiosSecure.patch(`/parcels/${parcel._id}/status`, statusInfo)
-         .then(res => {
-            if(res.data.modifiedCount > 0){
+
+        axiosSecure.patch(`/parcels/${parcel._id}/status`, statusInfo).then((res) => {
+            if (res.data.modifiedCount > 0) {
                 Swal.fire({
                     title: "Success",
                     text: message,
                     icon: "success",
                     showConfirmButton: false,
                     timer: 2000,
-                })
+                });
                 refetch();
             }
-         })
-    }
+        });
+    };
 
     return (
         <div className="m-4">
@@ -70,8 +70,12 @@ const AssignedDeliveries = () => {
                                     )}
                                 </td>
                                 <td className="space-x-2">
-                                    <button onClick={() => handleAcceptDelivery(parcel, "picked_up")} className="btn btn-sm btn-primary text-black">Mark as Picked Up</button>
-                                    <button onClick={() => handleAcceptDelivery(parcel, "parcel_delivered")}className="btn btn-sm btn-primary text-black">Mark as Delivered</button>
+                                    <button onClick={() => handleAcceptDelivery(parcel, "picked_up")} className="btn btn-sm btn-primary text-black">
+                                        Mark as Picked Up
+                                    </button>
+                                    <button onClick={() => handleAcceptDelivery(parcel, "parcel_delivered")} className="btn btn-sm btn-primary text-black">
+                                        Mark as Delivered
+                                    </button>
                                 </td>
                             </tr>
                         ))}

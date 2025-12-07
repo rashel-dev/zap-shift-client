@@ -4,6 +4,7 @@ import { BsFillBox2Fill } from "react-icons/bs";
 import { FaCreditCard, FaMotorcycle, FaTasks, FaUser } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
 import { RiEBikeFill } from "react-icons/ri";
+import { SiGoogletasks } from "react-icons/si";
 
 const DashboardLayout = () => {
     const {role} = useRole();
@@ -92,7 +93,7 @@ const DashboardLayout = () => {
                                     </NavLink>
                                     <NavLink to="/dashboard/completed-deliveries" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Completed Deliveries">
                                         {/* Completed Deliveries icon */}
-                                        <FaTasks className="my-1.5 inline-block size-4" />
+                                        <SiGoogletasks className="my-1.5 inline-block size-4" />
                                         <span className="is-drawer-close:hidden">Completed Deliveries</span>
                                     </NavLink>
                                 </li>
