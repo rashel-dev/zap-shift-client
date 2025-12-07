@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { BsFillBox2Fill } from "react-icons/bs";
-import { FaCreditCard, FaMotorcycle, FaUser } from "react-icons/fa";
+import { FaCreditCard, FaMotorcycle, FaTasks, FaUser } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
 import { RiEBikeFill } from "react-icons/ri";
 
@@ -80,6 +80,27 @@ const DashboardLayout = () => {
                                 <span className="is-drawer-close:hidden">Payment History</span>
                             </NavLink>
                         </li>
+
+                        {/* rider dashboard links  */}
+                        {role === "rider" && (
+                            <>
+                                <li>
+                                    <NavLink to="/dashboard/assigned-deliveries" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assigned Deliveries">
+                                        {/* Assigned Deliveries icon */}
+                                        <FaTasks className="my-1.5 inline-block size-4" />
+                                        <span className="is-drawer-close:hidden">Assigned Deliveries</span>
+                                    </NavLink>
+                                    <NavLink to="/dashboard/completed-deliveries" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Completed Deliveries">
+                                        {/* Completed Deliveries icon */}
+                                        <FaTasks className="my-1.5 inline-block size-4" />
+                                        <span className="is-drawer-close:hidden">Completed Deliveries</span>
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
+
+                        {/* admin dashboard links  */}
+
                         {role === "admin" && (
                             <>
                                 {/* Approved Riders link */}
