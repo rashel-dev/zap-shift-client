@@ -23,6 +23,7 @@ const Payment = () => {
             cost: parcel.cost,
             parcelName: parcel.parcelName,
             senderEmail: parcel.senderEmail,
+            trackingId: parcel.trackingId,
         };
 
        try {
