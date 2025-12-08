@@ -4,7 +4,7 @@
 
 **🌐 Live Demo:** [https://zap-shift-e24ef.web.app](https://zap-shift-e24ef.web.app)
 
-<img src="./screenShoot1.png" alt="Project Homepage" width="800" />
+<img src="./screenShoot1.png" alt="Project Homepage" width="200" />
 
 ## 🚀 Features
 
