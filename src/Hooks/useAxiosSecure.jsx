@@ -5,7 +5,7 @@ import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
 
 const axiosSecure = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://zap-shift-server-murex.vercel.app",
 });
 
 const useAxiosSecure = () => {
@@ -30,10 +30,9 @@ const useAxiosSecure = () => {
 
                 const statusCode = error.status;
                 if (statusCode === 403 || statusCode === 401) {
-                    logOut()
-                    .then(() => {
-                        navigate('/login');
-                    })
+                    logOut().then(() => {
+                        navigate("/login");
+                    });
                 }
 
                 return Promise.reject(error);
