@@ -5,6 +5,7 @@ import { FaCreditCard, FaMotorcycle, FaTasks, FaUser } from "react-icons/fa";
 import useRole from "../Hooks/useRole";
 import { RiEBikeFill } from "react-icons/ri";
 import { SiGoogletasks } from "react-icons/si";
+import logoImg from "../assets/logo.png"
 
 const DashboardLayout = () => {
     const {role} = useRole();
@@ -44,7 +45,10 @@ const DashboardLayout = () => {
                     <ul className="menu w-full grow space-y-2">
                         {/* List item */}
                         <li>
-                            <Link to="/" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
+                            <Link to="/"><img src={logoImg} alt="" /></Link>
+                        </li>
+                        <li>
+                            <Link to="/dashboard" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
                                 {/* Home icon */}
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

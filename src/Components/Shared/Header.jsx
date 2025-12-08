@@ -21,18 +21,18 @@ const Header = () => {
                 <NavLink to="">Services</NavLink>
             </li>
             <li>
+                <NavLink to="/send-parcel">Send Parcel</NavLink>
+            </li>
+            <li>
                 <NavLink to="/coverage">Coverage</NavLink>
             </li>
             <li>
                 <NavLink to="/about-us">About Us</NavLink>
             </li>
-            <li>
-                <NavLink to="/send-parcel">Send Parcel</NavLink>
-            </li>
             {
                 user && (
                     <li>
-                        <NavLink to="/dashboard/my-parcels">My Parcels</NavLink>
+                        <NavLink to="/dashboard">Dashboard</NavLink>
                     </li>
                 )
             }
